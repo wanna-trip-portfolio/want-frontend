@@ -1,26 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Reset } from 'styled-reset';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { JoinPage } from './page/JoinPage';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+export const App: React.FC = () => {
+  return (<>
+      {/*// CSS 리셋*/}
+      <Reset />
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path='/join'
+            element={<JoinPage />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
-}
+};
 
 export default App;
