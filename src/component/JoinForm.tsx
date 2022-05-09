@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import "./TestComponent.css"
 import {
     Box,
@@ -7,10 +7,12 @@ import {
     Container,
     FormControlLabel, FormLabel,
     Grid,
-    Link, Radio, RadioGroup, styled,
+    Link, Radio, RadioGroup,
     TextField,
     Typography
 } from "@mui/material";
+import {Util} from "../common/Util";
+import {useInputValidate, VALID_TYPE} from "../common/Validation";
 
 interface JoinDto {
     id: string,
@@ -22,9 +24,9 @@ interface JoinDto {
     phoneNumber: string,
 }
 
+const nullCheck = <T extends any>(input: any): T => (input as unknown as T);
 
 export const JoinForm: React.FC = () => {
-    const nullCheck = <T extends any>(input: any): T => (input as unknown as T);
     const getFormData = (e: React.FormEvent<HTMLFormElement>): JoinDto => {
         const data = new FormData(e.currentTarget);
         return {
@@ -39,29 +41,17 @@ export const JoinForm: React.FC = () => {
     }
 
 
+    const [id, setId] = useState('');
+    const handleChangeId = useInputValidate(id, setId, /[a-z|A-Z|0-9]/g);
 
+    const [idTimer, setIdTimer] = useState<number>(0);
 
-    // 디바운싱
-    const [idValidTimer, setIdValidTimer] = useState(0); // 디바운싱 타이머
+    const [nickName, setNickName] = useState<string>('');
 
-    const onChangeInputs = (event : React.ChangeEvent<HTMLInputElement>) => {
-        setMemberState({ // client data는 바로 변경
-            member: memberData,
-        });
-
-        // 디바운싱 - 마지막 호출만 적용 (put api)
-        if (timer) {
-            console.log('clear timer');
-            clearTimeout(timer);
-        }
-        const newTimer = setTimeout(async () => {
-            try {
-                await updateMemberById(match.params.id, memberData);
-            } catch (e) {
-                console.error('error', e);
-            }
-        }, 800);
-        setTimer(newTimer);
+    const handleChangeNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const lastInput = value.charAt(value.length - 1);
+        if (VALID_TYPE.EN_KR_NUM.test(lastInput) || value === '') setNickName(value);
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -78,7 +68,6 @@ export const JoinForm: React.FC = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center'
-
                 }}
             >
                 <Typography component="h1" variant="h5">
@@ -92,8 +81,8 @@ export const JoinForm: React.FC = () => {
                                 fullWidth
                                 name="id"
                                 label="아이디"
-                                placeholder="6자 이상"
-
+                                placeholder="6자 이상 12자 이하"
+                                onChange={handleChangeId}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -122,6 +111,8 @@ export const JoinForm: React.FC = () => {
                                 fullWidth
                                 name="nickName"
                                 placeholder="닉네임"
+                                value={nickName}
+                                onChange={handleChangeNickName}
                             />
                         </Grid>
                         <Grid item xs={12}>
