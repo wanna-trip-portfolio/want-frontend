@@ -1,18 +1,19 @@
-import React, {useCallback, useState} from 'react';
+import React from 'react';
 import "./TestComponent.css"
 import {
     Box,
     Button,
     Checkbox,
-    Container,
+    Container, debounce,
     FormControlLabel, FormLabel,
     Grid,
     Link, Radio, RadioGroup,
     TextField,
     Typography
 } from "@mui/material";
-import {Util} from "../common/Util";
-import {useInputValidate, VALID_TYPE} from "../common/Validation";
+import {DebounceCallAPI, onChangeExp, VALID_TYPE} from "../common/Validation";
+import {MemberRepository} from "../repository/MemberRepository";
+import {clearTimeout} from "timers";
 
 interface JoinDto {
     id: string,
@@ -24,35 +25,28 @@ interface JoinDto {
     phoneNumber: string,
 }
 
-const nullCheck = <T extends any>(input: any): T => (input as unknown as T);
+
+const getFormData = (e: React.FormEvent<HTMLFormElement>): JoinDto => {
+    const nullCheck = <T extends any>(input: any): T => (input as unknown as T);
+    const data = new FormData(e.currentTarget);
+    return {
+        id: nullCheck<string>(data.get('id')),
+        password: nullCheck<string>(data.get('password')),
+        name: nullCheck<string>(data.get('name')),
+        gender: nullCheck<string>(data.get('gender')),
+        birth: nullCheck<string>(data.get('birth')),
+        email: nullCheck<string>(data.get('email')),
+        phoneNumber: nullCheck<string>(data.get('phoneNumber')),
+    }
+}
 
 export const JoinForm: React.FC = () => {
-    const getFormData = (e: React.FormEvent<HTMLFormElement>): JoinDto => {
-        const data = new FormData(e.currentTarget);
-        return {
-            id: nullCheck<string>(data.get('id')),
-            password: nullCheck<string>(data.get('password')),
-            name: nullCheck<string>(data.get('name')),
-            gender: nullCheck<string>(data.get('gender')),
-            birth: nullCheck<string>(data.get('birth')),
-            email: nullCheck<string>(data.get('email')),
-            phoneNumber: nullCheck<string>(data.get('phoneNumber')),
-        }
-    }
+    console.log('JoinForm 생성')
 
+    let timeout: NodeJS.Timeout | undefined;
+    let result = true;
 
-    const [id, setId] = useState('');
-    const handleChangeId = useInputValidate(id, setId, /[a-z|A-Z|0-9]/g);
-
-    const [idTimer, setIdTimer] = useState<number>(0);
-
-    const [nickName, setNickName] = useState<string>('');
-
-    const handleChangeNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        const lastInput = value.charAt(value.length - 1);
-        if (VALID_TYPE.EN_KR_NUM.test(lastInput) || value === '') setNickName(value);
-    };
+    const idCheck = DebounceCallAPI<boolean>(timeout, MemberRepository.duplicateCheckId, result);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -82,7 +76,7 @@ export const JoinForm: React.FC = () => {
                                 name="id"
                                 label="아이디"
                                 placeholder="6자 이상 12자 이하"
-                                onChange={handleChangeId}
+                                onChange={idCheck}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -107,12 +101,12 @@ export const JoinForm: React.FC = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                required
+                                required={false}
                                 fullWidth
                                 name="nickName"
+                                label="닉네임"
                                 placeholder="닉네임"
-                                value={nickName}
-                                onChange={handleChangeNickName}
+                                onChange={onChangeExp(VALID_TYPE.EN_KR_NO) && idCheck}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -158,7 +152,8 @@ export const JoinForm: React.FC = () => {
                                 required
                                 fullWidth
                                 name="phoneNumber"
-                                placeholder="연락처"
+                                label="전화번호"
+                                placeholder="01000000000"
                             />
                         </Grid>
                         <Grid item xs={12}>

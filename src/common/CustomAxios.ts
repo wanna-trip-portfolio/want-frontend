@@ -110,4 +110,4 @@ class APITemplate {
     }
 }
 
-export const API = new APITemplate('http://localhost:8080/');
+export const API = new APITemplate('http://localhost:8081/');

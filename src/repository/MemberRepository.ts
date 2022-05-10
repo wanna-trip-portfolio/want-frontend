@@ -1,9 +1,26 @@
-class MemberRepo {
-    hihi = 1;
+import {API} from "../common/CustomAxios";
 
-    idDuplicateCheck(id: string): boolean {
-        return true;
+class MemberRepo {
+    prefix = '/members'
+
+    duplicateCheckId(id: string): Promise<boolean> {
+        if (id !== '') {
+            const url = `members/duplicate-check/web-id/${id}`;
+            return API.get<boolean>(url);
+        } else {
+            return new Promise((() => true));
+        }
     }
+
+    duplicateCheckNickName(id: string): Promise<boolean> {
+        if (id !== '') {
+            const url = `members/duplicate-check/web-id/${id}`;
+            return API.get<boolean>(url);
+        } else {
+            return new Promise((() => true));
+        }
+    }
+
 }
 
 export const MemberRepository = new MemberRepo();
