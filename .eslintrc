@@ -21,7 +21,8 @@
     "react",
     "react-hooks",
     "@typescript-eslint",
-    "jest"
+    "jest",
+    "import"
   ],
   "env": {
     "browser": true,
