@@ -15,7 +15,7 @@ function App() {
           <Route path="/main" element={<MainPage />} />
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          <Route element={<ErrorPage errorType={ERROR_KIND.NOT_FOUND} />} />
+          <Route path="*" element={<ErrorPage errorType={ERROR_KIND.NOT_FOUND} />} />
         </Routes>
       </BrowserRouter>
     </>
