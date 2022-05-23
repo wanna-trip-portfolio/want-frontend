@@ -25,6 +25,8 @@ export const SignUpItemWrapper = styled.div`
   width: 460px;
   display: flex;
   flex-direction: column;
+
+  margin-bottom: 10px;
 `;
 
 export const SignUpItemLabel = styled.div`
@@ -54,6 +56,5 @@ export const SignUpItemMessage = styled.div`
   height: 14px;
 
   margin-top: 5px;
-
   font-size: 12px;
 `;

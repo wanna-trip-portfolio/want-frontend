@@ -43,11 +43,9 @@ const SignInIdInput: React.FC = () => {
     <SignUpItemWrapper>
       <SignUpItemLabel>아이디</SignUpItemLabel>
       <SignUpItemInput onBlur={onBlur} onChange={onChange} type={'text'} />
-      {isValidate !== null && (
-        <SignUpItemMessage style={{ color: isValidate ? 'green' : 'red' }}>
-          <span>{message}</span>
-        </SignUpItemMessage>
-      )}
+      <SignUpItemMessage style={{ color: isValidate ? 'green' : 'red' }}>
+        <span>{message}</span>
+      </SignUpItemMessage>
     </SignUpItemWrapper>
   );
 };
@@ -61,12 +59,6 @@ const SignInPasswordInput: React.FC = () => {
 
   let password = '';
   let passwordC = '';
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    password = e.target.value;
-  };
-
-  const onChangeC = (e: ChangeEvent<HTMLInputElement>) => {};
 
   //TODO: 유효성 검사 추가
   const onBlur = () => {
@@ -109,11 +101,9 @@ const SignInPasswordInput: React.FC = () => {
           onChange={(e) => (password = e.target.value)}
           type={'password'}
         />
-        {isValidate !== null && (
-          <SignUpItemMessage style={{ color: isValidate ? 'green' : 'red' }}>
-            <span>{message}</span>
-          </SignUpItemMessage>
-        )}
+        <SignUpItemMessage style={{ color: isValidate ? 'green' : 'red' }}>
+          <span>{message}</span>
+        </SignUpItemMessage>
       </SignUpItemWrapper>
       <SignUpItemWrapper>
         <SignUpItemLabel>비밃번호 확인</SignUpItemLabel>
@@ -122,11 +112,10 @@ const SignInPasswordInput: React.FC = () => {
           onChange={(e) => (passwordC = e.target.value)}
           type={'password'}
         />
-        {isValidate !== null && (
-          <SignUpItemMessage style={{ color: isValidate ? 'green' : 'red' }}>
-            <span>{message}</span>
-          </SignUpItemMessage>
-        )}
+
+        <SignUpItemMessage style={{ color: isValidate ? 'green' : 'red' }}>
+          <span>{message}</span>
+        </SignUpItemMessage>
       </SignUpItemWrapper>
     </>
   );
@@ -141,6 +130,7 @@ const SignInPage: React.FC = () => {
         </Link>
         <SignUpForm>
           <SignInIdInput />
+          <SignInPasswordInput />
         </SignUpForm>
       </SignUpContainer>
     </SignInWrap>
