@@ -37,18 +37,26 @@ export const SignUpItemLabel = styled.div`
   font-weight: 700;
 `;
 
-export const SignUpItemInput = styled.input`
+export const SignUpItemInputWrapper = styled.div<{ isFocus: boolean }>`
   width: 100%;
   height: 31px;
 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px 14px;
-  border: 1px solid #dadada;
+
+  border: 1px solid ${(props) => (props.isFocus ? '#03c75a' : '#dadada')};
+  background-color: white;
+`;
+
+export const SignUpItemInput = styled.input`
+  font-size: 15px;
+  border: 0;
 
   :focus {
     outline: none;
   }
-
-  font-size: 15px;
 `;
 
 export const SignUpItemMessage = styled.div`
