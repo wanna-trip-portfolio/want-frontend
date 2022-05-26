@@ -15,60 +15,64 @@ export const SignUpPwInput: React.FC<{ signUpFormProps: SignUpFormProps }> = Rea
     const [passwordConfirm, setPasswordConfirm] = useState('');
 
     const [message, setMessage] = useState('');
-    const [isValidate, setIsValidate] = useState<boolean | null>(null);
+    const [isValid, setIsValid] = useState<boolean | null>(null);
 
-    const [messageC, setMessageC] = useState('');
-    const [isValidateC, setIsValidateC] = useState<boolean | null>(null);
+    const [messageConfirm, setMessageConfirm] = useState('');
+    const [isValidConfirm, setIsValidConfirm] = useState<boolean | null>(null);
 
-    const checkPassword = () => {
-      if (password === passwordConfirm) {
-        console.log('비밀번호 일치');
-        setIsValidate(true);
-        setIsValidateC(true);
-        setMessage('비밀번호가 일치합니다.');
-        setMessageC('비밀번호가 일치합니다.');
-        setSignUpInfo({ ...signUpInfo, webPw: password });
-        setValidCheck({ ...validCheck, webPw: true });
-        return true;
-      } else {
-        setMessage('비밀번호가 일치합니다.');
-        setValidCheck({ ...validCheck, webPw: false });
-        return false;
+    const checkPassword = (type: 'password' | 'passwordConfirm') => {
+      switch (type) {
+        case 'password':
+          let messageTemp = '';
+          let isValidTemp: boolean | null = false;
+          if (password === '') {
+            messageTemp = '필수 정보입니다.';
+          } else if (
+            !/[a-z|A-Z|0-9]/.test(password) ||
+            password.length < 8 ||
+            password.length > 20
+          ) {
+            messageTemp = '8~16자 영문 대 소문자, 숫자를 사용하세요.';
+          } else {
+            isValidTemp = null;
+          }
+          setMessage(messageTemp);
+          setIsValid(isValidTemp);
+          if (isValidConfirm !== null) checkPassword('passwordConfirm');
+          break;
+        case 'passwordConfirm':
+          let messageConfirmTemp = '';
+          const isValidConfirmTemp = false;
+          if (passwordConfirm === '') {
+            messageConfirmTemp = '필수 정보입니다.';
+          } else if (
+            !/[a-z|A-Z|0-9]/.test(passwordConfirm) ||
+            password.length < 8 ||
+            password.length > 20
+          ) {
+            messageConfirmTemp = '8~20자의 영문 소문자, 숫자만 사용 가능합니다.';
+          } else if (password !== passwordConfirm) {
+            messageConfirmTemp = '비밀번호가 일치하지 않습니다.';
+          }
+          setMessageConfirm(messageConfirmTemp);
+          setIsValidConfirm(isValidConfirmTemp);
+          break;
       }
     };
 
     //TODO: 유효성 검사 추가
     const onBlur = (type: 'password' | 'passwordConfirm') => {
-      console.log(`${type} blur`);
-      if (!checkPassword()) {
-        switch (type) {
-          case 'password':
-            console.log('password case');
-            if (password === '') {
-              setMessage('필수 정보입니다.');
-              setIsValidate(false);
-            } else if (/[a-z|A-Z|0-9]/.test(password)) {
-              setMessage('8~16자 영문 대 소문자, 숫자를 사용하세요.');
-              setIsValidate(false);
-            } else {
-              setMessage('');
-              setIsValidate(true);
-            }
-            break;
-          case 'passwordConfirm':
-            console.log('passwordConfirm case');
-            if (passwordConfirm === '') {
-              setMessageC('필수 정보입니다.');
-              setIsValidateC(false);
-            } else if (password !== passwordConfirm) {
-              setMessageC('비밀번호가 일치하지 않습니다.');
-              setIsValidateC(false);
-            } else {
-              setMessageC('');
-              setIsValidateC(true);
-            }
-            break;
-        }
+      if (password === passwordConfirm && password.length >= 8 && password.length <= 20) {
+        setIsValid(true);
+        setIsValidConfirm(true);
+        setMessage('올바른 비밀번호입니다.');
+        setMessageConfirm('올바른 비밀번호입니다.');
+        setSignUpInfo({ ...signUpInfo, webPw: password });
+        setValidCheck({ ...validCheck, webPw: true });
+      } else {
+        checkPassword(type);
+        setSignUpInfo({ ...signUpInfo, webPw: '' });
+        setValidCheck({ ...validCheck, webPw: false });
       }
     };
 
@@ -85,10 +89,10 @@ export const SignUpPwInput: React.FC<{ signUpFormProps: SignUpFormProps }> = Rea
             <LockIcon
               width={'30px'}
               height={'30px'}
-              color={isValidate === null ? 'grey' : isValidate ? 'green' : 'red'}
+              color={isValid === null ? 'grey' : isValid ? 'green' : 'red'}
             />
           </SignUpItemInputWrapper>
-          <SignUpItemMessage style={{ color: isValidate ? 'green' : 'red' }}>
+          <SignUpItemMessage style={{ color: isValid ? 'green' : 'red' }}>
             <span>{message}</span>
           </SignUpItemMessage>
         </SignUpItemWrapper>
@@ -103,11 +107,11 @@ export const SignUpPwInput: React.FC<{ signUpFormProps: SignUpFormProps }> = Rea
             <LockIcon
               width={'30px'}
               height={'30px'}
-              color={isValidate === null ? 'grey' : isValidateC ? 'green' : 'red'}
+              color={isValidConfirm === null ? 'grey' : isValidConfirm ? 'green' : 'red'}
             />
           </SignUpItemInputWrapper>
-          <SignUpItemMessage style={{ color: isValidateC ? 'green' : 'red' }}>
-            <span>{messageC}</span>
+          <SignUpItemMessage style={{ color: isValidConfirm ? 'green' : 'red' }}>
+            <span>{messageConfirm}</span>
           </SignUpItemMessage>
         </SignUpItemWrapper>
       </>
