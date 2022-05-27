@@ -37,7 +37,34 @@ export const SignUpItemLabel = styled.div`
   font-weight: 700;
 `;
 
-export const SignUpItemInputWrapper = styled.div<{ isFocus: boolean }>`
+export const SignUpItemBirthInputWrapper = styled.div`
+  width: 490px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const SignUpItemBirthSelect = styled.select`
+  width: 140px;
+  height: 53px;
+  display: flex;
+  padding-left: 20px;
+  font-size: 15px;
+  border: 1px solid #dadada;
+  background-color: white;
+`;
+
+export const SignUpItemGenderSelect = styled.select`
+  width: 100%;
+  height: 53px;
+  display: flex;
+  font-size: 15px;
+  padding-left: 20px;
+  border: 1px solid #dadada;
+  background-color: white;
+`;
+
+export const SignUpItemTextInputWrapper = styled.div<{ isFocus: boolean }>`
   width: 100%;
   height: 31px;
 

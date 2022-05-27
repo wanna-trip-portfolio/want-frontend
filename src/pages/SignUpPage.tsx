@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { WantLogo } from '../components/common/WantLogo';
-import { SignInWrap, SignUpContainer, SignUpForm } from './SignUpPage.style';
-import { SignUpIdInput } from '../components/page/signUpPage/SignUpIdInput';
-import { SignUpPwInput } from '../components/page/signUpPage/SignUpPwInput';
+import { SignInWrap, SignUpContainer, SignUpForm } from '../components/signUpPage/SignUp.style';
+import { SignUpIdInput } from '../components/signUpPage/SignUpIdInput';
+import { SignUpPwInput } from '../components/signUpPage/SignUpPwInput';
+import { SignUpNickNameInput } from '../components/signUpPage/SignUpNickNameInput';
+import { SignUpNameInput } from '../components/signUpPage/SignUpNameInput';
+import { SignUpBirthInput } from '../components/signUpPage/SignUpBirthInput';
+import { SignUpGenderInput } from '../components/signUpPage/SignUpGenderInput';
+import { SignUpEmailInput } from '../components/signUpPage/SignUpEmailInput';
+import { SignUpPhoneNumberInput } from '../components/signUpPage/SignUpPhoneNumberInput';
 
 export interface SignUpInfo {
   webId: string;
@@ -68,6 +74,12 @@ const SignUpPage: React.FC = () => {
         <SignUpForm>
           <SignUpIdInput signUpFormProps={signUpFormProps} />
           <SignUpPwInput signUpFormProps={signUpFormProps} />
+          <SignUpNickNameInput signUpFormProps={signUpFormProps} />
+          <SignUpNameInput signUpFormProps={signUpFormProps} />
+          <SignUpBirthInput signUpFormProps={signUpFormProps} />
+          <SignUpGenderInput signUpFormProps={signUpFormProps} />
+          <SignUpEmailInput signUpFormProps={signUpFormProps} />
+          <SignUpPhoneNumberInput signUpFormProps={signUpFormProps} />
         </SignUpForm>
       </SignUpContainer>
     </SignInWrap>

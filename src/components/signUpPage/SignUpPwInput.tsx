@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   SignUpItemInput,
-  SignUpItemInputWrapper,
   SignUpItemLabel,
   SignUpItemMessage,
+  SignUpItemTextInputWrapper,
   SignUpItemWrapper,
-} from '../../../pages/SignUpPage.style';
-import LockIcon from '../../../assets/icon/LockIcon';
-import { SignUpFormProps } from '../../../pages/SignUpPage';
+} from './SignUp.style';
+import LockIcon from '../../assets/icon/LockIcon';
+import { SignUpFormProps } from '../../pages/SignUpPage';
 
 export const SignUpPwInput: React.FC<{ signUpFormProps: SignUpFormProps }> = React.memo(
   ({ signUpFormProps: { signUpInfo, validCheck, setSignUpInfo, setValidCheck } }) => {
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
     const [message, setMessage] = useState('');
     const [isValid, setIsValid] = useState<boolean | null>(null);
@@ -60,7 +62,6 @@ export const SignUpPwInput: React.FC<{ signUpFormProps: SignUpFormProps }> = Rea
       }
     };
 
-    //TODO: 유효성 검사 추가
     const onBlur = (type: 'password' | 'passwordConfirm') => {
       if (password === passwordConfirm && password.length >= 8 && password.length <= 20) {
         setIsValid(true);
@@ -78,38 +79,40 @@ export const SignUpPwInput: React.FC<{ signUpFormProps: SignUpFormProps }> = Rea
 
     return (
       <>
-        <SignUpItemWrapper>
+        <SignUpItemWrapper onClick={() => passwordRef.current?.focus()}>
           <SignUpItemLabel>비밀번호</SignUpItemLabel>
-          <SignUpItemInputWrapper isFocus={false}>
+          <SignUpItemTextInputWrapper isFocus={false}>
             <SignUpItemInput
               onBlur={() => onBlur('password')}
               onChange={(e) => setPassword(e.target.value)}
               type={'password'}
+              ref={passwordRef}
             />
             <LockIcon
               width={'30px'}
               height={'30px'}
               color={isValid === null ? 'grey' : isValid ? 'green' : 'red'}
             />
-          </SignUpItemInputWrapper>
+          </SignUpItemTextInputWrapper>
           <SignUpItemMessage style={{ color: isValid ? 'green' : 'red' }}>
             <span>{message}</span>
           </SignUpItemMessage>
         </SignUpItemWrapper>
-        <SignUpItemWrapper>
-          <SignUpItemLabel>비밃번호 확인</SignUpItemLabel>
-          <SignUpItemInputWrapper isFocus={false}>
+        <SignUpItemWrapper onClick={() => passwordConfirmRef.current?.focus()}>
+          <SignUpItemLabel>비밀번호 확인</SignUpItemLabel>
+          <SignUpItemTextInputWrapper isFocus={false}>
             <SignUpItemInput
               onBlur={() => onBlur('passwordConfirm')}
               onChange={(e) => setPasswordConfirm(e.target.value)}
               type={'password'}
+              ref={passwordConfirmRef}
             />
             <LockIcon
               width={'30px'}
               height={'30px'}
               color={isValidConfirm === null ? 'grey' : isValidConfirm ? 'green' : 'red'}
             />
-          </SignUpItemInputWrapper>
+          </SignUpItemTextInputWrapper>
           <SignUpItemMessage style={{ color: isValidConfirm ? 'green' : 'red' }}>
             <span>{messageConfirm}</span>
           </SignUpItemMessage>
