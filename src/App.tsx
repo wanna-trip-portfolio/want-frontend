@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
-import {BrowserRouter, Route, Routes, useNavigate} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import MainPage from './pages/MainPage';
 import SignUpPage from './pages/SignUpPage';
-import ErrorPage, {ERROR_KIND} from './pages/ErrorPage';
+import ErrorPage, { ERROR_KIND } from './pages/ErrorPage';
 import TestPage from './pages/TestPage';
-import {getCookie} from './utils/Cookie'; // TODO: HOME 접속햿는지 안했는지 체크 => 어떻게 해야 좋을까?
+import { getCookie } from './utils/Cookie'; // TODO: HOME 접속햿는지 안했는지 체크 => 어떻게 해야 좋을까?
 
 // TODO: HOME 접속햿는지 안했는지 체크 => 어떻게 해야 좋을까?
 const CheckEnterHome = () => {
