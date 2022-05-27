@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
-    SignUpItemBirthInputWrapper,
-    SignUpItemGenderSelect,
-    SignUpItemLabel,
-    SignUpItemMessage,
-    SignUpItemWrapper,
+  SignUpItemBirthInputWrapper,
+  SignUpItemGenderSelect,
+  SignUpItemLabel,
+  SignUpItemMessage,
+  SignUpItemWrapper,
 } from './SignUp.style';
-import {SignUpFormProps} from '../../pages/SignUpPage';
+import { SignUpFormProps } from '../../pages/SignUpPage';
 
 // TODO: 미완성
 export const SignUpGenderInput: React.FC<{ signUpFormProps: SignUpFormProps }> = React.memo(
