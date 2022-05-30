@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  SignInWrap,
   SignUpContainer,
   SignUpForm,
   SignUpHeader,
   SignUpSubmitButton,
+  SignUpWrap,
 } from '../components/signUpPage/SignUp.style';
 import { SignUpIdInput } from '../components/signUpPage/SignUpIdInput';
 import { SignUpPwInput } from '../components/signUpPage/SignUpPwInput';
@@ -97,7 +97,7 @@ const SignUpPage: React.FC = () => {
   };
 
   return (
-    <SignInWrap>
+    <SignUpWrap>
       <SignUpContainer>
         <Link to={'/home'} style={{ textDecoration: 'none' }}>
           <SignUpHeader>Want</SignUpHeader>
@@ -117,7 +117,7 @@ const SignUpPage: React.FC = () => {
         </SignUpForm>
         <div>이용약관 개인정보처리방침 책임의 한계와 법적고지 회원정보 고객센터</div>
       </SignUpContainer>
-    </SignInWrap>
+    </SignUpWrap>
   );
 };
 

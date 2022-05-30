@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const SignInWrap = styled.div`
+export const SignUpWrap = styled.div`
   width: 100%;
   background-color: #f5f6f7;
 `;
