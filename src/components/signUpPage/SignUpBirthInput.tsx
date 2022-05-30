@@ -49,94 +49,89 @@ const BirthToString = (birth: BirthState): string => {
     : birth.day + '';
 };
 
-export const SignUpBirthInput: React.FC<{ signUpFormProps: SignUpFormProps }> = React.memo(
-  ({ signUpFormProps: { signUpInfo, validCheck, setSignUpInfo, setValidCheck } }) => {
-    const [birth, setBirth] = useState<BirthState>({ year: 0, month: 0, day: 0 });
+export const SignUpBirthInput: React.FC<{ signUpFormProps: SignUpFormProps }> = ({
+  signUpFormProps: { signUpInfo, validCheck, setSignUpInfo, setValidCheck },
+}) => {
+  const [birth, setBirth] = useState<BirthState>({ year: 0, month: 0, day: 0 });
 
-    const [message, setMessage] = useState('');
-    const [isValid, setIsValid] = useState<boolean | null>(null);
+  const [message, setMessage] = useState('');
+  const [isValid, setIsValid] = useState<boolean | null>(null);
 
-    const onMouseOver = () => {
-      if (birth.year !== 0 && birth.day === 0) {
-        setSignUpInfo({ ...signUpInfo, birth: '' });
-        setValidCheck({ ...validCheck, birth: false });
-        setIsValid(false);
-        setMessage('필수 정보입니다.');
-      }
-    };
+  const onMouseOver = () => {
+    if (birth.year !== 0 && birth.day === 0) {
+      setSignUpInfo({ ...signUpInfo, birth: '' });
+      setValidCheck({ ...validCheck, birth: false });
+      setIsValid(false);
+      setMessage('필수 정보입니다.');
+    }
+  };
 
-    const onSelect = (
-      type: 'year' | 'month' | 'day'
-    ): ((e: React.ChangeEvent<HTMLSelectElement>) => void) => {
-      switch (type) {
-        case 'year':
-          return (e) => {
-            setSignUpInfo({ ...signUpInfo, birth: '' });
-            setValidCheck({ ...validCheck, birth: false });
-            setBirth({ year: +e.target.value, month: 0, day: 0 });
-          };
-        case 'month':
-          return (e) => {
-            setSignUpInfo({ ...signUpInfo, birth: '' });
-            setValidCheck({ ...validCheck, birth: false });
-            setBirth({ ...birth, month: +e.target.value, day: 0 });
-          };
-        case 'day':
-          return (e) => {
-            setSignUpInfo({ ...signUpInfo, birth: BirthToString(birth) });
-            setValidCheck({ ...validCheck, birth: true });
-            setIsValid(null);
-            setBirth({ ...birth, day: +e.target.value });
-          };
-      }
-    };
+  const onSelect = (
+    type: 'year' | 'month' | 'day'
+  ): ((e: React.ChangeEvent<HTMLSelectElement>) => void) => {
+    switch (type) {
+      case 'year':
+        return (e) => {
+          setSignUpInfo({ ...signUpInfo, birth: '' });
+          setValidCheck({ ...validCheck, birth: false });
+          setBirth({ year: +e.target.value, month: 0, day: 0 });
+        };
+      case 'month':
+        return (e) => {
+          setSignUpInfo({ ...signUpInfo, birth: '' });
+          setValidCheck({ ...validCheck, birth: false });
+          setBirth({ ...birth, month: +e.target.value, day: 0 });
+        };
+      case 'day':
+        return (e) => {
+          setSignUpInfo({ ...signUpInfo, birth: BirthToString(birth) });
+          setValidCheck({ ...validCheck, birth: true });
+          setIsValid(null);
+          setBirth({ ...birth, day: +e.target.value });
+        };
+    }
+  };
 
-    return (
-      <SignUpItemWrapper onMouseOver={onMouseOver}>
-        <SignUpItemLabel>생년월일</SignUpItemLabel>
-        <SignUpItemBirthInputWrapper>
-          <SignUpItemBirthSelect onChange={onSelect('year')}>
-            <option value={''}>연도</option>
-            {createYear().map((year) => {
+  return (
+    <SignUpItemWrapper onMouseOver={onMouseOver}>
+      <SignUpItemLabel>생년월일</SignUpItemLabel>
+      <SignUpItemBirthInputWrapper>
+        <SignUpItemBirthSelect onChange={onSelect('year')}>
+          <option value={''}>연도</option>
+          {createYear().map((year) => {
+            return (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            );
+          })}
+        </SignUpItemBirthSelect>
+        <SignUpItemBirthSelect onChange={onSelect('month')} value={birth.month}>
+          <option value={''}>월</option>
+          {birth.year !== 0 &&
+            createMonth().map((month) => {
               return (
-                <option key={year} value={year}>
-                  {year}
+                <option key={month} value={month}>
+                  {month}
                 </option>
               );
             })}
-          </SignUpItemBirthSelect>
-          <SignUpItemBirthSelect onChange={onSelect('month')} value={birth.month}>
-            <option value={''}>월</option>
-            {birth.year !== 0 &&
-              createMonth().map((month) => {
-                return (
-                  <option key={month} value={month}>
-                    {month}
-                  </option>
-                );
-              })}
-          </SignUpItemBirthSelect>
-          <SignUpItemBirthSelect onChange={onSelect('day')} value={birth.day}>
-            <option value={''}>일</option>
-            {birth.month !== 0 &&
-              createDay(birth.year, birth.month).map((day) => {
-                return (
-                  <option key={day} value={day}>
-                    {day}
-                  </option>
-                );
-              })}
-          </SignUpItemBirthSelect>
-        </SignUpItemBirthInputWrapper>
-        <SignUpItemMessage style={{ color: isValid ? 'green' : 'red' }}>
-          <span>{isValid !== null && message}</span>
-        </SignUpItemMessage>
-      </SignUpItemWrapper>
-    );
-  },
-  (prevProps, nextProps) => {
-    return (
-      prevProps.signUpFormProps.signUpInfo.birth === nextProps.signUpFormProps.signUpInfo.birth
-    );
-  }
-);
+        </SignUpItemBirthSelect>
+        <SignUpItemBirthSelect onChange={onSelect('day')} value={birth.day}>
+          <option value={''}>일</option>
+          {birth.month !== 0 &&
+            createDay(birth.year, birth.month).map((day) => {
+              return (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              );
+            })}
+        </SignUpItemBirthSelect>
+      </SignUpItemBirthInputWrapper>
+      <SignUpItemMessage style={{ color: isValid ? 'green' : 'red' }}>
+        <span>{isValid !== null && message}</span>
+      </SignUpItemMessage>
+    </SignUpItemWrapper>
+  );
+};
