@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { setCookie } from '../utils/Cookie';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { WantLogo } from '../components/common/WantLogo';
 
 const HomeBackGround = styled.div`
   width: 100vw;
@@ -11,8 +10,6 @@ const HomeBackGround = styled.div`
   background: url('img/home-background.jpeg');
   background-size: cover;
   opacity: 0.65;
-
-  font-family: 'NanumPenScript';
 `;
 
 const HomeContent = styled.div`
@@ -33,8 +30,9 @@ const HomeContent = styled.div`
 const HomeDescription = styled.div`
   text-align: center;
   color: #797979;
+  font-family: 'NanumPenScript';
   font-size: 25px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const EnterButton = styled.div`
@@ -51,6 +49,12 @@ const EnterButton = styled.div`
   color: white;
 `;
 
+const HomeLogo = styled.div`
+  color: #03c75a;
+  font-size: 80px;
+  font-family: 'NanumPenScript';
+`;
+
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -62,7 +66,7 @@ const HomePage: React.FC = () => {
     <>
       <HomeBackGround />
       <HomeContent>
-        <WantLogo>Want</WantLogo>
+        <HomeLogo>Want</HomeLogo>
         <HomeDescription>
           For travelers
           <br />

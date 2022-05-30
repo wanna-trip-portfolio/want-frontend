@@ -26,10 +26,10 @@ export const SignUpNickNameInput: React.FC<{ signUpFormProps: SignUpFormProps }>
         messageTemp = '이미 사용중인 닉네임입니다.';
       } else if (
         !/[a-z|A-Z|0-9|가-힣]/.test(nickName) ||
-        nickName.length < 6 ||
-        nickName.length > 20
+        nickName.length < 2 ||
+        nickName.length > 10
       ) {
-        messageTemp = '6~20자의 영문 소문자, 한글, 숫자만 사용 가능합니다.';
+        messageTemp = '2~10자의 영문 소문자, 한글, 숫자만 사용 가능합니다.';
       } else {
         isValidTemp = true;
         messageTemp = '멋진 닉네임입니다';

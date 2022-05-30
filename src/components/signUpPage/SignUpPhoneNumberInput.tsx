@@ -1,18 +1,18 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
-    SignUpItemInput,
-    SignUpItemLabel,
-    SignUpItemMessage,
-    SignUpItemTextInputWrapper,
-    SignUpItemWrapper,
+  SignUpItemInput,
+  SignUpItemLabel,
+  SignUpItemMessage,
+  SignUpItemTextInputWrapper,
+  SignUpItemWrapper,
 } from './SignUp.style';
-import {SignUpFormProps} from '../../pages/SignUpPage';
+import { SignUpFormProps } from '../../pages/SignUpPage';
 
 // TODO: 미완성
 export const SignUpPhoneNumberInput: React.FC<{ signUpFormProps: SignUpFormProps }> = React.memo(
   ({ signUpFormProps: { signUpInfo, validCheck, setSignUpInfo, setValidCheck } }) => {
-    const [name, setName] = useState('');
-    const nameRef = useRef<HTMLInputElement>(null);
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const phoneNumberRef = useRef<HTMLInputElement>(null);
 
     const [message, setMessage] = useState('');
     const [isValid, setIsValid] = useState<boolean | null>(null);
@@ -20,29 +20,29 @@ export const SignUpPhoneNumberInput: React.FC<{ signUpFormProps: SignUpFormProps
     const onBlur = () => {
       let messageTemp = '';
       let isValidTemp = false;
-      if (name === '') {
+      if (phoneNumber === '') {
         messageTemp = '필수 정보입니다.';
-      } else if (!/[a-z|A-Z|0-9|가-힣]/.test(name) || name.length < 2 || name.length > 6) {
-        messageTemp = '2-5자의 한글만 사용 가능합니다.';
+      } else if (!/^01([0|1|6|7|8|9])?([0-9]{3,4})?([0-9]{4})$/.test(phoneNumber)) {
+        messageTemp = '올바른 번호가 아닙니다.';
       } else {
         isValidTemp = true;
-        messageTemp = '멋진 이름입니다';
+        messageTemp = '올바른 휴대전화 번호입니다.';
       }
       setMessage(messageTemp);
       setIsValid(isValidTemp);
-      setSignUpInfo({ ...signUpInfo, name: isValidTemp ? name : '' });
-      setValidCheck({ ...validCheck, name: isValidTemp });
+      setSignUpInfo({ ...signUpInfo, phoneNumber: isValidTemp ? phoneNumber : '' });
+      setValidCheck({ ...validCheck, phoneNumber: isValidTemp });
     };
 
     return (
-      <SignUpItemWrapper onClick={() => nameRef.current?.focus()}>
-        <SignUpItemLabel>이름</SignUpItemLabel>
+      <SignUpItemWrapper onClick={() => phoneNumberRef.current?.focus()}>
+        <SignUpItemLabel>휴대전화 번호</SignUpItemLabel>
         <SignUpItemTextInputWrapper isFocus={false}>
           <SignUpItemInput
             onBlur={onBlur}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setPhoneNumber(e.target.value)}
             type={'text'}
-            ref={nameRef}
+            ref={phoneNumberRef}
           />
         </SignUpItemTextInputWrapper>
         <SignUpItemMessage style={{ color: isValid ? 'green' : 'red' }}>

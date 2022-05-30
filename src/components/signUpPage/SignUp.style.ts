@@ -15,10 +15,18 @@ export const SignUpContainer = styled.div`
   align-items: center;
 `;
 
+export const SignUpHeader = styled.div`
+  color: #03c75a;
+  font-size: 100px;
+  font-family: 'NanumPenScript';
+`;
+
 export const SignUpForm = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  margin-bottom: 20px;
 `;
 
 export const SignUpItemWrapper = styled.div`
@@ -92,4 +100,19 @@ export const SignUpItemMessage = styled.div`
 
   margin-top: 5px;
   font-size: 12px;
+`;
+
+export const SignUpSubmitButton = styled.div<{ isValidComplete: boolean }>`
+  width: 490px;
+  height: 53px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: solid 1px rgba(0, 0, 0, 0.08);
+  font-size: 15px;
+
+  background-color: ${(props) => (props.isValidComplete ? '#03c75a' : '#f5f6f7')};
+  color: ${(props) => (props.isValidComplete ? 'white' : 'rgb(84, 84, 84)')};
 `;

@@ -64,9 +64,8 @@ export const SignUpPwInput: React.FC<{ signUpFormProps: SignUpFormProps }> = Rea
 
     const onBlur = (type: 'password' | 'passwordConfirm') => {
       if (password === passwordConfirm && password.length >= 8 && password.length <= 20) {
-        setIsValid(true);
+        setIsValid(null);
         setIsValidConfirm(true);
-        setMessage('올바른 비밀번호입니다.');
         setMessageConfirm('올바른 비밀번호입니다.');
         setSignUpInfo({ ...signUpInfo, webPw: password });
         setValidCheck({ ...validCheck, webPw: true });

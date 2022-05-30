@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { WantLogo } from '../components/common/WantLogo';
-import { SignInWrap, SignUpContainer, SignUpForm } from '../components/signUpPage/SignUp.style';
+import {
+  SignInWrap,
+  SignUpContainer,
+  SignUpForm,
+  SignUpHeader,
+  SignUpSubmitButton,
+} from '../components/signUpPage/SignUp.style';
 import { SignUpIdInput } from '../components/signUpPage/SignUpIdInput';
 import { SignUpPwInput } from '../components/signUpPage/SignUpPwInput';
 import { SignUpNickNameInput } from '../components/signUpPage/SignUpNickNameInput';
@@ -44,20 +49,20 @@ const SignUpPage: React.FC = () => {
   const [signUpInfo, setSignUpInfo] = useState<SignUpInfo>({
     webId: '',
     webPw: '',
+    nickName: '',
     name: '',
     gender: '',
-    nickName: '',
-    phoneNumber: '',
     birth: '',
     email: '',
+    phoneNumber: '',
   });
 
   const [validCheck, setValidCheck] = useState<SignUpValidCheck>({
     webId: false,
     webPw: false,
+    nickName: false,
     name: false,
     gender: false,
-    nickName: false,
     birth: false,
     email: false,
     phoneNumber: false,
@@ -65,11 +70,28 @@ const SignUpPage: React.FC = () => {
 
   const signUpFormProps: SignUpFormProps = { signUpInfo, setSignUpInfo, validCheck, setValidCheck };
 
+  useEffect(() => {
+    console.log(signUpInfo);
+  }, [signUpInfo]);
+
+  const isValidComplete = () => {
+    return (
+      validCheck.webId &&
+      validCheck.webPw &&
+      validCheck.name &&
+      validCheck.gender &&
+      validCheck.nickName &&
+      validCheck.birth &&
+      validCheck.email &&
+      validCheck.phoneNumber
+    );
+  };
+
   return (
     <SignInWrap>
       <SignUpContainer>
         <Link to={'/home'} style={{ textDecoration: 'none' }}>
-          <WantLogo>Want</WantLogo>
+          <SignUpHeader>Want</SignUpHeader>
         </Link>
         <SignUpForm>
           <SignUpIdInput signUpFormProps={signUpFormProps} />
@@ -80,7 +102,9 @@ const SignUpPage: React.FC = () => {
           <SignUpGenderInput signUpFormProps={signUpFormProps} />
           <SignUpEmailInput signUpFormProps={signUpFormProps} />
           <SignUpPhoneNumberInput signUpFormProps={signUpFormProps} />
+          <SignUpSubmitButton isValidComplete={isValidComplete()}>가입하기</SignUpSubmitButton>
         </SignUpForm>
+        <div>이용약관 개인정보처리방침 책임의 한계와 법적고지 회원정보 고객센터</div>
       </SignUpContainer>
     </SignInWrap>
   );

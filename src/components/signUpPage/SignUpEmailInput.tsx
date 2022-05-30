@@ -1,18 +1,18 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
-    SignUpItemInput,
-    SignUpItemLabel,
-    SignUpItemMessage,
-    SignUpItemTextInputWrapper,
-    SignUpItemWrapper,
+  SignUpItemInput,
+  SignUpItemLabel,
+  SignUpItemMessage,
+  SignUpItemTextInputWrapper,
+  SignUpItemWrapper,
 } from './SignUp.style';
-import {SignUpFormProps} from '../../pages/SignUpPage';
+import { SignUpFormProps } from '../../pages/SignUpPage';
 
 // TODO: 미완성
 export const SignUpEmailInput: React.FC<{ signUpFormProps: SignUpFormProps }> = React.memo(
   ({ signUpFormProps: { signUpInfo, validCheck, setSignUpInfo, setValidCheck } }) => {
-    const [name, setName] = useState('');
-    const nameRef = useRef<HTMLInputElement>(null);
+    const [email, setEmail] = useState('');
+    const emailRef = useRef<HTMLInputElement>(null);
 
     const [message, setMessage] = useState('');
     const [isValid, setIsValid] = useState<boolean | null>(null);
@@ -20,29 +20,33 @@ export const SignUpEmailInput: React.FC<{ signUpFormProps: SignUpFormProps }> = 
     const onBlur = () => {
       let messageTemp = '';
       let isValidTemp = false;
-      if (name === '') {
+      if (email === '') {
         messageTemp = '필수 정보입니다.';
-      } else if (!/[a-z|A-Z|0-9|가-힣]/.test(name) || name.length < 2 || name.length > 6) {
-        messageTemp = '2-5자의 한글만 사용 가능합니다.';
+      } else if (
+        !/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/.test(
+          email
+        )
+      ) {
+        messageTemp = '이메일 형식에 맞지않습니다.';
       } else {
         isValidTemp = true;
-        messageTemp = '멋진 이름입니다';
+        messageTemp = '올바른 이메일 형식입니다.';
       }
       setMessage(messageTemp);
       setIsValid(isValidTemp);
-      setSignUpInfo({ ...signUpInfo, name: isValidTemp ? name : '' });
-      setValidCheck({ ...validCheck, name: isValidTemp });
+      setSignUpInfo({ ...signUpInfo, email: isValidTemp ? email : '' });
+      setValidCheck({ ...validCheck, email: isValidTemp });
     };
 
     return (
-      <SignUpItemWrapper onClick={() => nameRef.current?.focus()}>
+      <SignUpItemWrapper onClick={() => emailRef.current?.focus()}>
         <SignUpItemLabel>이메일</SignUpItemLabel>
         <SignUpItemTextInputWrapper isFocus={false}>
           <SignUpItemInput
             onBlur={onBlur}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             type={'text'}
-            ref={nameRef}
+            ref={emailRef}
           />
         </SignUpItemTextInputWrapper>
         <SignUpItemMessage style={{ color: isValid ? 'green' : 'red' }}>
