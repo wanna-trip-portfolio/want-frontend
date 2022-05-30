@@ -115,4 +115,7 @@ export const SignUpSubmitButton = styled.div<{ isValidComplete: boolean }>`
 
   background-color: ${(props) => (props.isValidComplete ? '#03c75a' : '#f5f6f7')};
   color: ${(props) => (props.isValidComplete ? 'white' : 'rgb(84, 84, 84)')};
+  :hover {
+    cursor: ${(props) => (props.isValidComplete ? 'pointer' : 'default')};
+  }
 `;

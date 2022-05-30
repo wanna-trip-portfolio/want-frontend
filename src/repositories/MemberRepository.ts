@@ -1,8 +1,6 @@
 import { SignUpInfo } from '../pages/SignUpPage';
-import { APITemplate } from './CustomAxios';
+import { API } from './CustomAxios';
 import { SignInInfo } from '../pages/SignInPage';
-
-const API = new APITemplate('board');
 
 export interface SessionInfo {
   memberId: number;
@@ -12,13 +10,14 @@ export interface SessionInfo {
   role: 'ADMIN' | 'MANAGER' | 'USER';
 }
 
+const PREFIX = 'members';
 const url = {
-  signUp: `/sign-up`,
-  signIn: `/login`,
-  logOut: `/logout`,
-  checkIdDuplicate: (webId: string) => `/duplicate-check/web-id/${webId}`,
-  checkNickNameDuplicate: (nickname: string) => `/duplicate-check/nickname/${nickname}`,
-  checkEmailDuplicate: (email: string) => `/duplicate-check/email/${email}`,
+  signUp: PREFIX + `/sign-up`,
+  signIn: PREFIX + `/login`,
+  logOut: PREFIX + `/logout`,
+  checkIdDuplicate: (webId: string) => PREFIX + `/duplicate-check/web-id/${webId}`,
+  checkNickNameDuplicate: (nickname: string) => PREFIX + `/duplicate-check/nickname/${nickname}`,
+  checkEmailDuplicate: (email: string) => PREFIX + `/duplicate-check/email/${email}`,
 };
 
 class MemberRepo {
@@ -30,7 +29,7 @@ class MemberRepo {
     return API.post<SignInInfo, SessionInfo>(url.signIn, signInInfo);
   }
 
-  logOut(): Promise<string> {
+  signOut(): Promise<string> {
     return API.get<string>(url.logOut);
   }
 

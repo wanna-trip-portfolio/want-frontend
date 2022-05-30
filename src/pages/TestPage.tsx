@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { flushSync } from 'react-dom';
+import React from 'react';
+import styled from 'styled-components';
+import axios from 'axios';
 
-const width = '100px';
-const height = '100px';
-const backgroundColor = 'grey';
+const TestDiv = styled.div<{ color: string }>`
+  width: 100px;
+  height: 100px;
+  background-color: ${(props) => props.color};
+  :hover {
+    cursor: pointer;
+  }
+`;
 
 const TestPage: React.FC = () => {
-  console.log('TestPage Component');
-  const [state1, setState1] = useState(0);
-  const [state2, setState2] = useState(0);
-  const [state3, setState3] = useState(0);
-
-  useEffect(() => {
-    console.log('시작');
-
-    setTimeout(() => {
-      console.log('setTimeout 시작');
-      flushSync(() => setState1(1));
-      flushSync(() => setState2(2));
-      flushSync(() => setState3(3));
-      console.log('setTimeout 종료');
-    }, 10);
-    console.log('종료');
-  }, []);
-
   return (
     <>
-      <div>{state1}</div>
-      <div>{state2}</div>
-      <div>{state3}</div>
+      <TestDiv
+        color={'red'}
+        onClick={() => {
+          const result = axios.get('http://localhost:8080/test1');
+          result.then((res) => console.log(res));
+        }}
+      />
+      <TestDiv
+        color={'blue'}
+        onClick={() => {
+          const result = axios.get('http://localhost:8080/test2');
+          result.then((res) => console.log(res));
+        }}
+      />
+      <TestDiv color={'green'} />
     </>
   );
 };

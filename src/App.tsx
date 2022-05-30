@@ -5,7 +5,8 @@ import MainPage from './pages/MainPage';
 import SignUpPage from './pages/SignUpPage';
 import ErrorPage, { ERROR_KIND } from './pages/ErrorPage';
 import TestPage from './pages/TestPage';
-import { getCookie } from './utils/Cookie'; // TODO: HOME 접속햿는지 안했는지 체크 => 어떻게 해야 좋을까?
+import { getCookie } from './utils/Cookie';
+import SignInPage from './pages/SignInPage'; // TODO: HOME 접속햿는지 안했는지 체크 => 어떻게 해야 좋을까?
 
 // TODO: HOME 접속햿는지 안했는지 체크 => 어떻게 해야 좋을까?
 const CheckEnterHome = () => {
@@ -28,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/home" element={<HomePage />} />
           <Route path="/main" element={<MainPage />} />
-          <Route path="/signin" element={<SignUpPage />} />
+          <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="*" element={<ErrorPage errorType={ERROR_KIND.NOT_FOUND} />} />

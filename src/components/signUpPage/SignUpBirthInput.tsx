@@ -42,11 +42,12 @@ interface BirthState {
 }
 
 const BirthToString = (birth: BirthState): string => {
-  return birth.year + birth.month < 10
-    ? '0' + birth.month
-    : birth.month + birth.day < 10
-    ? '0' + birth.day
-    : birth.day + '';
+  return (
+    '' +
+    birth.year +
+    (birth.month < 10 ? '0' + birth.month : birth.month) +
+    (birth.day < 10 ? '0' + birth.day : birth.day)
+  );
 };
 
 export const SignUpBirthInput: React.FC<{ signUpFormProps: SignUpFormProps }> = ({

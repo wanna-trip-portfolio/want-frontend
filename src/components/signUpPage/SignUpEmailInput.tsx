@@ -7,6 +7,7 @@ import {
   SignUpItemWrapper,
 } from './SignUp.style';
 import { SignUpFormProps } from '../../pages/SignUpPage';
+import { MemberRepository } from '../../repositories/MemberRepository';
 
 // TODO: 미완성
 export const SignUpEmailInput: React.FC<{ signUpFormProps: SignUpFormProps }> = ({
@@ -18,7 +19,7 @@ export const SignUpEmailInput: React.FC<{ signUpFormProps: SignUpFormProps }> = 
   const [message, setMessage] = useState('');
   const [isValid, setIsValid] = useState<boolean | null>(null);
 
-  const onBlur = () => {
+  const onBlur = async () => {
     let messageTemp = '';
     let isValidTemp = false;
     if (email === '') {
@@ -28,6 +29,8 @@ export const SignUpEmailInput: React.FC<{ signUpFormProps: SignUpFormProps }> = 
         email
       )
     ) {
+    } else if (!(await MemberRepository.checkEmailDuplicate(email))) {
+      messageTemp = '이미 사용중인 이메일입니다.';
       messageTemp = '이메일 형식에 맞지않습니다.';
     } else {
       isValidTemp = true;

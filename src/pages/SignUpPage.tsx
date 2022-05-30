@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   SignInWrap,
   SignUpContainer,
@@ -15,6 +15,7 @@ import { SignUpBirthInput } from '../components/signUpPage/SignUpBirthInput';
 import { SignUpGenderInput } from '../components/signUpPage/SignUpGenderInput';
 import { SignUpEmailInput } from '../components/signUpPage/SignUpEmailInput';
 import { SignUpPhoneNumberInput } from '../components/signUpPage/SignUpPhoneNumberInput';
+import { MemberRepository } from '../repositories/MemberRepository';
 
 export interface SignUpInfo {
   webId: string;
@@ -70,6 +71,8 @@ const SignUpPage: React.FC = () => {
 
   const signUpFormProps: SignUpFormProps = { signUpInfo, setSignUpInfo, validCheck, setValidCheck };
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     console.log(signUpInfo);
   }, [signUpInfo]);
@@ -87,6 +90,12 @@ const SignUpPage: React.FC = () => {
     );
   };
 
+  const onClickSendButton = () => {
+    if (isValidComplete()) {
+      MemberRepository.signUp(signUpInfo).then(() => navigate('/main'));
+    }
+  };
+
   return (
     <SignInWrap>
       <SignUpContainer>
@@ -102,7 +111,9 @@ const SignUpPage: React.FC = () => {
           <SignUpGenderInput signUpFormProps={signUpFormProps} />
           <SignUpEmailInput signUpFormProps={signUpFormProps} />
           <SignUpPhoneNumberInput signUpFormProps={signUpFormProps} />
-          <SignUpSubmitButton isValidComplete={isValidComplete()}>가입하기</SignUpSubmitButton>
+          <SignUpSubmitButton isValidComplete={isValidComplete()} onClick={onClickSendButton}>
+            가입하기
+          </SignUpSubmitButton>
         </SignUpForm>
         <div>이용약관 개인정보처리방침 책임의 한계와 법적고지 회원정보 고객센터</div>
       </SignUpContainer>

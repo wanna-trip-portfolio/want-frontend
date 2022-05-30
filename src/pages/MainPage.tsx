@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const GNBContainer = styled.div`
   width: 100vw;
@@ -31,6 +32,9 @@ const GNBBoardContainer = styled.div`
 
 const GNBBoardItem = styled.div`
   width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const GNBSignButton = styled.div`
@@ -42,6 +46,8 @@ const GNBSignButton = styled.div`
 `;
 
 const GNB: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <GNBContainer>
       <GNBWrapper>
@@ -53,7 +59,7 @@ const GNB: React.FC = () => {
           <GNBBoardItem>여행지 정보</GNBBoardItem>
           <GNBBoardItem>About Us</GNBBoardItem>
         </GNBBoardContainer>
-        <GNBSignButton>로그인</GNBSignButton>
+        <GNBSignButton onClick={() => navigate('/signin')}>로그인</GNBSignButton>
       </GNBWrapper>
     </GNBContainer>
   );

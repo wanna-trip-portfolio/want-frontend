@@ -7,12 +7,14 @@ export interface ResponseForm<T> {
   data: T;
 }
 
+axios.defaults.withCredentials = true;
+
 //TODO : 전역 Error 처리 추가해야함
-export class APITemplate {
+class APITemplate {
   private readonly SERVER_URL;
 
-  constructor(prefix: string) {
-    this.SERVER_URL = `http://localhost:8080/${prefix}`;
+  constructor() {
+    this.SERVER_URL = `http://localhost:8080/`;
   }
 
   public async get<ResT>(url: string): Promise<ResT> {
@@ -20,7 +22,6 @@ export class APITemplate {
     const body: ResponseForm<ResT> = response.data;
     console.log(`API 호출`);
     console.log(body.data);
-
     return body.data;
   }
 
@@ -96,3 +97,5 @@ export class APITemplate {
     return body.data;
   }
 }
+
+export const API = new APITemplate();
